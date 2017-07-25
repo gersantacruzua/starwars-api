@@ -1,5 +1,6 @@
 package com.starwars.repository;
 
+
 import com.starwars.model.Film;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,22 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface FilmRepository extends JpaRepository<Film, Long>, CustomFilmRepository{
+public interface FilmRepository extends JpaRepository <Film, Long>, CustomFilmRepository{
 
-    List<Film> findAllByReleaseDateGreaterThanEqual(Date releaseDate);
-
-    @Query("select f from Film f where f.people.size = (select max(f2.people.size) from Film f2)")
-    List<Film> findAllByMaxPeople();
-
-    @Query("select f from Film f where f.people.size = (select min(f2.people.size) from Film f2)")
-    List<Film> findAllByMinPlanets();
-
-    @Query("select f from Film f join f.people p where p.name=:name")
-    List<Film> findAllByPeopleContains(@Param("name") String name);
-
-    @Override
-    @RestResource(exported = false)
-    Film saveAndFlush(Film film);
 
     @Override
     @RestResource(exported = false)
@@ -35,10 +22,6 @@ public interface FilmRepository extends JpaRepository<Film, Long>, CustomFilmRep
     @Override
     @RestResource(exported = false)
     void deleteAllInBatch();
-
-    @Override
-    @RestResource(exported = false)
-    Film save(Film film);
 
     @Override
     @RestResource(exported = false)
@@ -55,4 +38,20 @@ public interface FilmRepository extends JpaRepository<Film, Long>, CustomFilmRep
     @Override
     @RestResource(exported = false)
     void deleteAll();
+
+
+    List<Film> findAllByOrderByEpisodeIdAsc();
+    List<Film> findAllByReleaseDateGreaterThanEqual(@Param("releaseDate") Date releaseDate);
+
+    @Query("select f from Film f where f.people.size = (select max(f2.people.size) from Film f2)")
+    List<Film> findAllByMaxPeople();
+
+    @Query("select f from Film f where f.planets.size = (select min(f2.planets.size) from Film f2)")
+    List<Film> findAllByMinPlanets();
+
+    @Query("select f from Film f join f.people p where p.name = :name")
+    List<Film> findAllByPeopleContains(@Param("name") String name);
+
+
+
 }

@@ -1,6 +1,6 @@
 package com.starwars.repository;
 
-import com.starwars.model.Film;
+import com.starwars.model.People;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +13,15 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FilmRepositoryTest {
+public class PeopleRepositoryTest {
 
     @Autowired
-    private FilmRepository filmRepository;
+    private PeopleRepository peopleRepository;
 
     @Test
     public void should_find_top_20_height_people() throws Exception {
-        List<Film> films = filmRepository.findAllByMaxPeople();
-        assertNotNull(films);
+        List<People> peopleList = peopleRepository.findFirst20ByOrderByMassDesc();
+        assertNotNull(peopleList);
     }
 
-    @Test
-    public void should_print_all_films() {
-        List<Film> all =  filmRepository.findAll();
-        //all.stream().forEach(System.out::println);
-        all.stream().forEach(f -> filmRepository.logFilm(f));
-    }
 }

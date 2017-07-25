@@ -2,8 +2,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-
+  data:
+      rest:
+        detection-strategy: all
 server:
+  port: 9080
   error:
     whitelabel:
       enabled: false
+management:
+  security:
+    enabled: false
